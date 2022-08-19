@@ -1,6 +1,6 @@
 package hexlet.code;
 
-import hexlet.code.formatters.JSON;
+//import hexlet.code.formatters.JSON;
 import hexlet.code.formatters.Plain;
 import org.junit.jupiter.api.Test;
 
@@ -102,16 +102,16 @@ public class AppTest {
         assertThat(Plain.applyPlain(map1, map2, diff)).isEqualTo(expected);
     }
 
-    @Test
-    void testApplyJson() {
-        String expected = "{" + "\"follow\":\"removed\","
-                + "\"host\":\"unchanged\","
-                + "\"proxy\":\"removed\","
-                + "\"timeout\":\"changed\","
-                + "\"verbose\":\"added\"" + "}";
-        TreeMap<String, Object> map1 = Parser.parseMap(PATH_TO_JSON_FILE_1);
-        TreeMap<String, Object> map2 = Parser.parseMap(PATH_TO_JSON_FILE_2);
-        Map<String, String> diff = Differ.getDifferences(map1, map2);
-        assertThat(JSON.applyJSON(diff)).isEqualTo(expected);
-    }
+//    @Test
+//    void testApplyJson() {
+//        String expected = "{" + "\"follow\":\"removed\","
+//                + "\"host\":\"unchanged\","
+//                + "\"proxy\":\"removed\","
+//                + "\"timeout\":\"changed\","
+//                + "\"verbose\":\"added\"" + "}";
+//        TreeMap<String, Object> map1 = Parser.parseMap(PATH_TO_JSON_FILE_1);
+//        TreeMap<String, Object> map2 = Parser.parseMap(PATH_TO_JSON_FILE_2);
+//        Map<String, String> diff = Differ.getDifferences(map1, map2);
+//        assertThat(JSON.applyJSON(diff)).isEqualTo(expected);
+//    }
 }
