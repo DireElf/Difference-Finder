@@ -1,4 +1,4 @@
-package tests;
+package hexlet.code;
 
 import hexlet.code.Differ;
 import hexlet.code.Parser;
