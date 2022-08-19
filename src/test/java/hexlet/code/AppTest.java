@@ -1,7 +1,5 @@
 package hexlet.code;
 
-import hexlet.code.Differ;
-import hexlet.code.Parser;
 import hexlet.code.formatters.JSON;
 import hexlet.code.formatters.Plain;
 import org.junit.jupiter.api.Test;
