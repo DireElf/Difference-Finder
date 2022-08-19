@@ -44,6 +44,9 @@ compileJava {
     options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
 }
 
+group = 'hexlet.code'
+version = '1.0-SNAPSHOT'
+
 jacocoTestReport {
     dependsOn test
     reports {
