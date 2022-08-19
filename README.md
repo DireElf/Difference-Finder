@@ -1,8 +1,6 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/DireElf/java-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/DireElf/java-project-lvl2/actions)
 [![Build](https://github.com/DireElf/java-project-lvl2/actions/workflows/build.yml/badge.svg)](https://github.com/DireElf/java-project-lvl2/actions/workflows/build.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/1ad315d79132c816f3f1/maintainability)](https://codeclimate.com/github/DireElf/java-project-lvl2/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/1ad315d79132c816f3f1/test_coverage)](https://codeclimate.com/github/DireElf/java-project-lvl2/test_coverage)
 
 [![asciicast](https://asciinema.org/a/ocAf0Sskqqnnnrd6v8OqPmqXe.svg)](https://asciinema.org/a/ocAf0Sskqqnnnrd6v8OqPmqXe)
 
