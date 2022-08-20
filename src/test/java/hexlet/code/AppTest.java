@@ -53,21 +53,6 @@ public class AppTest {
     }
 
     @Test
-    void testParser() {
-        TreeMap<String, Object> validResult = new TreeMap<>();
-        final int sampleNumber = 50;
-        validResult.put("host", "hexlet.io");
-        validResult.put("timeout", sampleNumber);
-        validResult.put("proxy", "123.234.53.22");
-        validResult.put("follow", false);
-        assertThat(Parser.parseMap(PATH_TO_JSON_FILE_1)).isEqualTo(validResult);
-        assertThat(Parser.parseMap(PATH_TO_YAML_FILE_1)).isEqualTo(validResult);
-        assertThat(Parser.parseMap(PATH_TO_YML_FILE)).isEqualTo(validResult);
-        assertThat(Parser.parseMap(PATH_TO_EMPTY_JSON_FILE)).isEqualTo(new TreeMap<>());
-        assertThat(Parser.parseMap(PATH_TO_EMPTY_YAML_FILE)).isEqualTo(new TreeMap<>());
-    }
-
-    @Test
     void testGetDiffer() {
         TreeMap<String, String> expected = new TreeMap<>();
         expected.put("follow", "removed");
