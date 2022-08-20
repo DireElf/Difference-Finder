@@ -12,6 +12,10 @@ public class Differ {
         return Formatter.getFormattedString(map1, map2, differences, format);
     }
 
+    public static String generate(String path1, String path2) {
+        return generate(path1, path2, "stylish");
+    }
+
     public static Map<String, String> getDifferences(Map<String, Object> map1, Map<String, Object> map2) {
         TreeSet<String> keys = getOrderedKeySet(map1, map2);
         if (!keys.isEmpty()) {
