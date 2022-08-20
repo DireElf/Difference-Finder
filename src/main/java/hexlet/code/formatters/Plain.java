@@ -17,9 +17,7 @@ public class Plain {
                             "Property '%s' was updated. From %s to %s\n",
                             key, checkType(map1.get(key)), checkType(map2.get(key))));
                     case "removed" -> stringBuilder.append(String.format("Property '%s' was removed\n", key));
-                    default -> {
-                        continue;
-                    }
+                    default -> stringBuilder.append("");
                 }
             }
             stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());

@@ -1,15 +1,14 @@
 package hexlet.code.formatters;
 
-import hexlet.code.Differ;
 import org.junit.jupiter.api.Test;
-
-
-import static hexlet.code.Utils.getFileContent;
-import static hexlet.code.Utils.getPathAsString;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class PlainTest {
+import hexlet.code.Differ;
+import static hexlet.code.Utils.getFileContent;
+import static hexlet.code.Utils.getPathAsString;
 
+
+class PlainTest {
     @Test
     void applyPlain() {
         String expected = getFileContent("result6.txt");

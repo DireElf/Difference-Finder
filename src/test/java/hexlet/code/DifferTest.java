@@ -26,8 +26,8 @@ class DifferTest {
     @Test
     void generateWhenValuesContainObjects() {
         String expected = getFileContent("result5.txt");
-        assertThat(Differ.generate(getPathAsString("nested1.json"),
-                getPathAsString("nested2.json"))).isEqualTo(expected);
+        assertThat(Differ.generate(getPathAsString("nested1.yaml"),
+                getPathAsString("nested2.yaml"))).isEqualTo(expected);
     }
 
     @Test
