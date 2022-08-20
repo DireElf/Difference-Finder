@@ -27,7 +27,7 @@ public class Plain {
         return stringBuilder.toString();
     }
 
-    private static String checkType(Object object) {
+    public static String checkType(Object object) {
         if (object == null) {
             return "null";
         }

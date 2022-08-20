@@ -5,11 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.TreeMap;
 
-import static hexlet.code.AppTest.PATH_TO_EMPTY_JSON_FILE;
-import static hexlet.code.AppTest.PATH_TO_EMPTY_YAML_FILE;
-import static hexlet.code.AppTest.PATH_TO_JSON_FILE_1;
-import static hexlet.code.AppTest.PATH_TO_YAML_FILE_1;
-import static hexlet.code.AppTest.PATH_TO_YML_FILE;
+import static hexlet.code.Utils.getPathAsString;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ParserTest {
@@ -31,36 +27,32 @@ class ParserTest {
     }
 
     @Test
-    void parseMap() {
-        assertThat(Parser.parseMap(PATH_TO_JSON_FILE_1)).isEqualTo(expected);
-        assertThat(Parser.parseMap(PATH_TO_YAML_FILE_1)).isEqualTo(expected);
-        assertThat(Parser.parseMap(PATH_TO_YML_FILE)).isEqualTo(expected);
-        assertThat(Parser.parseMap(PATH_TO_EMPTY_JSON_FILE)).isEqualTo(new TreeMap<>());
-        assertThat(Parser.parseMap(PATH_TO_EMPTY_YAML_FILE)).isEqualTo(new TreeMap<>());
-    }
-
-    @Test
     void parseJsonFile() {
-        assertThat(Parser.parseMap(PATH_TO_JSON_FILE_1)).isEqualTo(expected);
+        String path = getPathAsString("file1.json");
+        assertThat(Parser.parseMap(path)).isEqualTo(expected);
     }
 
     @Test
     void parseYamlFile() {
-        assertThat(Parser.parseMap(PATH_TO_YAML_FILE_1)).isEqualTo(expected);
+        String path = getPathAsString("file1.yaml");
+        assertThat(Parser.parseMap(path)).isEqualTo(expected);
     }
 
     @Test
     void parseYmlFile() {
-        assertThat(Parser.parseMap(PATH_TO_YML_FILE)).isEqualTo(expected);
+        String path = getPathAsString("file1.yml");
+        assertThat(Parser.parseMap(path)).isEqualTo(expected);
     }
 
     @Test
     void parseEmptyJsonFile() {
-        assertThat(Parser.parseMap(PATH_TO_EMPTY_JSON_FILE)).isEqualTo(new TreeMap<>());
+        String path = getPathAsString("empty.json");
+        assertThat(Parser.parseMap(path)).isEqualTo(new TreeMap<>());
     }
 
     @Test
     void parseEmptyYamlFile() {
-        assertThat(Parser.parseMap(PATH_TO_EMPTY_YAML_FILE)).isEqualTo(new TreeMap<>());
+        String path = getPathAsString("empty.yaml");
+        assertThat(Parser.parseMap(path)).isEqualTo(new TreeMap<>());
     }
 }
