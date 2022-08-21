@@ -24,17 +24,7 @@ public class Differ {
         }
         TreeMap<String, String> diffs = new TreeMap<>();
         for (String key : keys) {
-            if (!map1.containsKey(key)) {
-                diffs.put(key, "added");
-            } else {
-                if (map2.containsKey(key)) {
-                    boolean hasChange = !Objects.equals(map1.get(key), map2.get(key));
-                    String status = hasChange ? "changed" : "unchanged";
-                    diffs.put(key, status);
-                } else {
-                    diffs.put(key, "removed");
-                }
-            }
+            diffs.put(key, getStatus(map1, map2, key));
         }
         return diffs;
     }
@@ -43,5 +33,16 @@ public class Differ {
         TreeSet<String> keys = new TreeSet<>(map1.keySet());
         keys.addAll(map2.keySet());
         return keys;
+    }
+
+    private static String getStatus(Map<String, Object> map1, Map<String, Object> map2, String key) {
+        if (map1.containsKey(key) && map2.containsKey(key)) {
+            boolean hasChange = !Objects.equals(map1.get(key), map2.get(key));
+            return hasChange ? "changed" : "unchanged";
+        }
+        if (!map1.containsKey(key)) {
+            return "added";
+        }
+        return "removed";
     }
 }
