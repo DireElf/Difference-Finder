@@ -25,7 +25,9 @@ public class Differ {
                     diffs.put(key, "added");
                 } else {
                     if (map2.containsKey(key)) {
-                        if (String.valueOf(map1.get(key)).equals(String.valueOf(map2.get(key)))) {
+                        String value1 = String.valueOf(map1.get(key));
+                        String value2 = String.valueOf(map2.get(key));
+                        if (value1.equals(value2)) {
                             diffs.put(key, "unchanged");
                         } else {
                             diffs.put(key, "changed");
