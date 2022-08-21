@@ -16,10 +16,10 @@ public class Differ {
         return generate(path1, path2, "stylish");
     }
 
-    public static Map<String, String> getDifferences(Map<String, Object> map1, Map<String, Object> map2) {
+    public static TreeMap<String, String> getDifferences(Map<String, Object> map1, Map<String, Object> map2) {
         TreeSet<String> keys = getOrderedKeySet(map1, map2);
         if (!keys.isEmpty()) {
-            Map<String, String> diffs = new TreeMap<>();
+            TreeMap<String, String> diffs = new TreeMap<>();
             for (String key : keys) {
                 if (!map1.containsKey(key)) {
                     diffs.put(key, "added");
