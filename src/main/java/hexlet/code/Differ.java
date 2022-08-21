@@ -1,6 +1,7 @@
 package hexlet.code;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -27,11 +28,9 @@ public class Differ {
                 diffs.put(key, "added");
             } else {
                 if (map2.containsKey(key)) {
-                    if (String.valueOf(map1.get(key)).equals(String.valueOf(map2.get(key)))) {
-                        diffs.put(key, "unchanged");
-                    } else {
-                        diffs.put(key, "changed");
-                    }
+                    boolean hasChange = !Objects.equals(map1.get(key), map2.get(key));
+                    String status = hasChange ? "changed" : "unchanged";
+                    diffs.put(key, status);
                 } else {
                     diffs.put(key, "removed");
                 }
