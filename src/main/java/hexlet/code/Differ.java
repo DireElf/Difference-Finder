@@ -18,28 +18,26 @@ public class Differ {
 
     public static TreeMap<String, String> getDifferences(Map<String, Object> map1, Map<String, Object> map2) {
         TreeSet<String> keys = getOrderedKeySet(map1, map2);
-        if (!keys.isEmpty()) {
-            TreeMap<String, String> diffs = new TreeMap<>();
-            for (String key : keys) {
-                if (!map1.containsKey(key)) {
-                    diffs.put(key, "added");
-                } else {
-                    if (map2.containsKey(key)) {
-                        String value1 = String.valueOf(map1.get(key));
-                        String value2 = String.valueOf(map2.get(key));
-                        if (value1.equals(value2)) {
-                            diffs.put(key, "unchanged");
-                        } else {
-                            diffs.put(key, "changed");
-                        }
+        if (keys.isEmpty()) {
+            return new TreeMap<>();
+        }
+        TreeMap<String, String> diffs = new TreeMap<>();
+        for (String key : keys) {
+            if (!map1.containsKey(key)) {
+                diffs.put(key, "added");
+            } else {
+                if (map2.containsKey(key)) {
+                    if (String.valueOf(map1.get(key)).equals(String.valueOf(map2.get(key)))) {
+                        diffs.put(key, "unchanged");
                     } else {
-                        diffs.put(key, "removed");
+                        diffs.put(key, "changed");
                     }
+                } else {
+                    diffs.put(key, "removed");
                 }
             }
-            return diffs;
         }
-        return new TreeMap<>();
+        return diffs;
     }
 
     private static TreeSet<String> getOrderedKeySet(Map<String, Object> map1, Map<String, Object> map2) {
