@@ -1,7 +1,1 @@
-{
-  "follow" : "removed",
-  "host" : "unchanged",
-  "proxy" : "removed",
-  "timeout" : "changed",
-  "verbose" : "added"
-}
+{"follow":"removed","host":"unchanged","proxy":"removed","timeout":"changed","verbose":"added"}
