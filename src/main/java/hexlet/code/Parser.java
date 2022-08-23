@@ -11,20 +11,30 @@ import java.util.TreeMap;
 
 public class Parser {
     public static TreeMap<String, Object> parseMap(String path) {
-        File file = Paths.get(path).toAbsolutePath().normalize().toFile();
+        TreeMap<String, Object> result = new TreeMap<>();
         try {
+            File file = Paths.get(path).toAbsolutePath().normalize().toFile();
+            validate(file);
             if (path.toLowerCase().endsWith(".json")) {
-                return new ObjectMapper().readValue(file, new TypeReference<>() {
-                });
-            } else if (path.toLowerCase().endsWith(".yaml") || path.toLowerCase().endsWith(".yml")) {
-                return new ObjectMapper(new YAMLFactory()).readValue(file, new TypeReference<>() {
+                result = new ObjectMapper().readValue(file, new TypeReference<>() {
                 });
             } else {
-                throw new RuntimeException("Invalid file format");
+                result = new ObjectMapper(new YAMLFactory()).readValue(file, new TypeReference<>() {
+                });
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new TreeMap<>();
+        return result;
+    }
+
+    private static void validate(File file) {
+        if (!file.exists()) {
+            throw new Error(String.format("File \"%s\" not found", file.getName()));
+        }
+        String fileName = file.getName().toLowerCase();
+        if (!(fileName.endsWith(".json") || fileName.endsWith(".yaml") || fileName.endsWith(".yml"))) {
+            throw new Error("Invalid file format. Available extensions are: .json, .yml, .yaml");
+        }
     }
 }

@@ -8,7 +8,7 @@ import java.util.Map;
 public class JSON {
     public static String applyJSON(Map<String, String> differences) {
         try {
-            return new ObjectMapper().writeValueAsString(differences);
+            return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(differences);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

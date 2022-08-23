@@ -1,138 +1,85 @@
 package hexlet.code;
 
-
 import org.junit.jupiter.api.Test;
-import picocli.CommandLine;
-import java.util.Map;
-import java.util.TreeMap;
 
-import hexlet.code.formatters.JSON;
 import static hexlet.code.Utils.getFileContent;
 import static hexlet.code.Utils.getPathAsString;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class UnitTests {
 
+//    @BeforeAll
+//    static void writer() throws IOException {
+//        String toWrite = Differ.generate(getPathAsString("valid_file1.json"),
+//                getPathAsString("valid_file2.json"), "json");
+//        Files.createFile(Paths.get(getPathAsString("expected_json_formatted.txt")));
+//        Files.writeString(Paths.get(getPathAsString("expected_json_formatted.txt")), toWrite);
+//    }
+
     @Test
-    void testApp() {
-        String[] args = {};
-        assertThat(new CommandLine(new App()).execute(args)).isEqualTo(0);
+    void formatDefault() {
+        String expected = getFileContent("expected_stylish_formatted.txt");
+        assertThat(Differ.generate(getPathAsString("valid_file1.json"),
+                getPathAsString("valid_file2.json"))).isEqualTo(expected);
     }
 
     @Test
-    void testParserParseMap() {
-        TreeMap<String, Object> expected = new TreeMap<>();
-        final int sampleNumber = 50;
-        expected.put("host", "hexlet.io");
-        expected.put("timeout", sampleNumber);
-        expected.put("proxy", "123.234.53.22");
-        expected.put("follow", false);
-        String path = getPathAsString("file1.json");
-        assertThat(Parser.parseMap(path)).isEqualTo(expected);
-        String pathToYAML = getPathAsString("file1.yaml");
-        assertThat(Parser.parseMap(pathToYAML)).isEqualTo(expected);
-        String pathToYML = getPathAsString("file1.yml");
-        assertThat(Parser.parseMap(pathToYML)).isEqualTo(expected);
-        String pathToEmptyJSON = getPathAsString("empty.json");
-        assertThat(Parser.parseMap(pathToEmptyJSON)).isEqualTo(new TreeMap<>());
-        String pathToEmptyYAML = getPathAsString("empty.yaml");
-        assertThat(Parser.parseMap(pathToEmptyYAML)).isEqualTo(new TreeMap<>());
+    void formatStylish() {
+        String expected = getFileContent("expected_stylish_formatted.txt");
+        assertThat(Differ.generate(getPathAsString("valid_file1.json"),
+                getPathAsString("valid_file2.json"), "stylish")).isEqualTo(expected);
     }
 
     @Test
-    void testDifferGenerateWithTwoParams() {
-        String expected = getFileContent("result1.txt");
-        assertThat(Differ.generate(getPathAsString("file1.json"),
-                getPathAsString("file2.json"))).isEqualTo(expected);
+    void formatPlain() {
+        String expected = getFileContent("expected_plain_formatted.txt");
+        assertThat(Differ.generate(getPathAsString("valid_file_with_complex_values1.yml"),
+                getPathAsString("valid_file_with_complex_values2.yml"), "plain")).isEqualTo(expected);
     }
 
     @Test
-    void testDifferGenerateWithThreeParams() {
-        String expected = getFileContent("result1.txt");
-        assertThat(Differ.generate(getPathAsString("file1.json"),
-                getPathAsString("file2.json"), "stylish")).isEqualTo(expected);
+    void formatJson() {
+        String expected = getFileContent("expected_json_formatted.txt");
+        assertThat(Differ.generate(getPathAsString("valid_file1.json"),
+                getPathAsString("valid_file2.json"), "json")).isEqualTo(expected);
     }
 
     @Test
-    void testWhenValuesContainObjects() {
-        String expected = getFileContent("result5.txt");
-        assertThat(Differ.generate(getPathAsString("nested1.yaml"),
-                getPathAsString("nested2.yaml"))).isEqualTo(expected);
+    void valuesContainObjects() {
+        String expected = getFileContent("expected_with_complex_values.txt");
+        assertThat(Differ.generate(getPathAsString("valid_file_with_complex_values1.yml"),
+                getPathAsString("valid_file_with_complex_values2.yml"))).isEqualTo(expected);
     }
 
     @Test
-    void testDifferGetDifferences() {
-        TreeMap<String, String> expected = new TreeMap<>();
-        expected.put("follow", "removed");
-        expected.put("host", "unchanged");
-        expected.put("proxy", "removed");
-        expected.put("timeout", "changed");
-        expected.put("verbose", "added");
-        TreeMap<String, Object> map1 = Parser.parseMap(getPathAsString("file1.json"));
-        TreeMap<String, Object> map2 = Parser.parseMap(getPathAsString("file2.json"));
-        assertThat(Differ.getDifferences(map1, map2)).isEqualTo(expected);
+    void filesHaveYamlExtension() {
+        String expected = getFileContent("expected_stylish_formatted.txt");
+        assertThat(Differ.generate(getPathAsString("valid_file_yaml_extension1.yaml"),
+                getPathAsString("valid_file_yaml_extension2.yaml"))).isEqualTo(expected);
     }
 
     @Test
-    void testDifferGetDifferencesWhen1stMapIsEmpty() {
-        TreeMap<String, String> expected = new TreeMap<>();
-        expected.put("follow", "added");
-        expected.put("host", "added");
-        expected.put("proxy", "added");
-        expected.put("timeout", "added");
-        TreeMap<String, Object> map1 = Parser.parseMap(getPathAsString("empty.json"));
-        TreeMap<String, Object> map2 = Parser.parseMap(getPathAsString("file1.json"));
-        assertThat(Differ.getDifferences(map1, map2)).isEqualTo(expected);
+    void firstFileWithWrongExtension() {
+        assertThatThrownBy(() -> Differ.generate(getPathAsString("expected_stylish_formatted.txt"),
+                getPathAsString("valid_file2.json")))
+                .isInstanceOf(Error.class)
+                .hasMessage("Invalid file format. Available extensions are: .json, .yml, .yaml");
     }
 
     @Test
-    void testDifferGetDifferencesWhen2ndMapIsEmpty() {
-        TreeMap<String, String> expected = new TreeMap<>();
-        expected.put("follow", "removed");
-        expected.put("host", "removed");
-        expected.put("proxy", "removed");
-        expected.put("timeout", "removed");
-        TreeMap<String, Object> map1 = Parser.parseMap(getPathAsString("file1.json"));
-        TreeMap<String, Object> map2 = Parser.parseMap(getPathAsString("empty.json"));
-        assertThat(Differ.getDifferences(map1, map2)).isEqualTo(expected);
+    void secondFileWithWrongExtension() {
+        assertThatThrownBy(() -> Differ.generate(getPathAsString("valid_file1.json"),
+                getPathAsString("expected_stylish_formatted.txt")))
+                .isInstanceOf(Error.class)
+                .hasMessage("Invalid file format. Available extensions are: .json, .yml, .yaml");
     }
 
     @Test
-    void testDifferGetDifferencesWhenBothMapsAreEmpty() {
-        TreeMap<String, Object> map1 = Parser.parseMap(getPathAsString("empty.yaml"));
-        TreeMap<String, Object> map2 = Parser.parseMap(getPathAsString("empty.json"));
-        assertThat(Differ.getDifferences(map1, map2)).isEqualTo(new TreeMap<>());
-    }
-
-    @Test
-    void testApplyJSON() {
-        String expected = "{" + "\"follow\":\"removed\","
-                + "\"host\":\"unchanged\","
-                + "\"proxy\":\"removed\","
-                + "\"timeout\":\"changed\","
-                + "\"verbose\":\"added\"" + "}";
-        TreeMap<String, Object> map1 = Parser.parseMap(getPathAsString("file1.json"));
-        TreeMap<String, Object> map2 = Parser.parseMap(getPathAsString("file2.json"));
-        Map<String, String> differences = Differ.getDifferences(map1, map2);
-        assertThat(JSON.applyJSON(differences)).isEqualTo(expected);
-    }
-
-    @Test
-    void testApplyJSONtoEmptyMap() {
-        assertThat(JSON.applyJSON(new TreeMap<>())).isEqualTo("{}");
-    }
-
-    @Test
-    void testApplyPlain() {
-        String expected = getFileContent("result6.txt");
-        assertThat(Differ.generate(getPathAsString("nested1.yaml"),
-                getPathAsString("nested2.yaml"), "plain")).isEqualTo(expected);
-    }
-
-    @Test
-    void applyStylish() {
-        String expected = getFileContent("result1.txt");
-        assertThat(Differ.generate(getPathAsString("file1.json"),
-                getPathAsString("file2.json"), "stylish")).isEqualTo(expected);
+    void firstFileUnavailable() {
+        assertThatThrownBy(() -> Differ.generate(getPathAsString("unavailable.json"),
+                getPathAsString("valid_file2.json")))
+                .isInstanceOf(Error.class)
+                .hasMessage("File \"unavailable.json\" not found");
     }
 }
