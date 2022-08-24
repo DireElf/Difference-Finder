@@ -39,10 +39,10 @@ public class Parser {
             throw new IOException("File \"" + fileName
                     + "\" has wrong format. Available extensions are: .json, .yml, .yaml");
         }
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        if (br.readLine() == null) {
-            throw new IOException("File \"" + file.getName() + "\" is empty");
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            if (br.readLine() == null) {
+                throw new IOException("File \"" + file.getName() + "\" is empty");
+            }
         }
-        br.close();
     }
 }

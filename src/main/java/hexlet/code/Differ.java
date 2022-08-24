@@ -5,17 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class Differ {
     public static String generate(String path1, String path2, String format) {
         try {
-            List<Entry> differences = getDifferences(Parser.parseMap(path1), Parser.parseMap(path2));
+            TreeMap<String, Object> map1 = Parser.parseMap(path1);
+            TreeMap<String, Object> map2 = Parser.parseMap(path2);
+            List<Entry> differences = getDifferences(map1, map2);
             return Formatter.getFormattedString(differences, format);
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
-
     }
 
     public static String generate(String path1, String path2) {
