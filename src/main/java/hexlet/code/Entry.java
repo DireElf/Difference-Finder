@@ -1,12 +1,12 @@
 package hexlet.code;
 
-public final class Change {
+public final class Entry {
     private String name;
     private String status;
     private Object firstValue;
     private Object secondValue;
 
-    public Change(String newName, String newStatus, Object newFirstValue, Object newSecondValue) {
+    public Entry(String newName, String newStatus, Object newFirstValue, Object newSecondValue) {
         this.name = newName;
         this.status = newStatus;
         this.firstValue = newFirstValue;

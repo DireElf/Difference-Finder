@@ -47,5 +47,6 @@ public class Parser {
         if (br.readLine() == null) {
             throw new IOException("File \"" + file.getName() + "\" is empty");
         }
+        br.close();
     }
 }

@@ -1,22 +1,28 @@
 package hexlet.code.formatters;
 
+import hexlet.code.Entry;
 import org.apache.commons.lang3.ClassUtils;
 
-import java.util.Map;
+import java.util.List;
 
 public class Plain {
-    public static String applyPlain(Map<String, Object> map1, Map<String, Object> map2,
-                                    Map<String, String> differences) {
+    public static String format(List<Entry> differences) {
         StringBuilder stringBuilder = new StringBuilder();
         if (!differences.isEmpty()) {
-            for (String key : differences.keySet()) {
-                switch (differences.get(key)) {
-                    case "added" -> stringBuilder.append(String.format(
-                            "Property '%s' was added with value: %s\n", key, checkType(map2.get(key))));
-                    case "changed" -> stringBuilder.append(String.format(
-                            "Property '%s' was updated. From %s to %s\n",
-                            key, checkType(map1.get(key)), checkType(map2.get(key))));
-                    case "removed" -> stringBuilder.append(String.format("Property '%s' was removed\n", key));
+            for (Entry entry : differences) {
+                switch (entry.getStatus()) {
+                    case "added" -> stringBuilder.
+                            append(String.format("Property '%s' was added with value: %s\n",
+                                    entry.getName(),
+                                    format(entry.getSecondValue())));
+                    case "changed" -> stringBuilder
+                            .append(String.format("Property '%s' was updated. From %s to %s\n",
+                                    entry.getName(),
+                                    format(entry.getFirstValue()),
+                                    format(entry.getSecondValue())));
+                    case "removed" -> stringBuilder
+                            .append(String.format("Property '%s' was removed\n",
+                                    entry.getName()));
                     default -> stringBuilder.append("");
                 }
             }
@@ -25,7 +31,7 @@ public class Plain {
         return stringBuilder.toString();
     }
 
-    public static String checkType(Object object) {
+    private static String format(Object object) {
         if (object == null) {
             return "null";
         }

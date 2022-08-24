@@ -4,16 +4,15 @@ import hexlet.code.formatters.JSON;
 import hexlet.code.formatters.Plain;
 import hexlet.code.formatters.Stylish;
 
-import java.util.Map;
+import java.util.List;
 
 public class Formatter {
-    public static String getFormattedString(Map<String, Object> map1, Map<String, Object> map2,
-                                            Map<String, String> differences, String format) {
+    public static String getFormattedString(List<Entry> differences, String format) {
         if (format.equals("plain")) {
-            return Plain.applyPlain(map1, map2, differences);
+            return Plain.format(differences);
         } else if (format.equals("json")) {
-            return JSON.applyJSON(differences);
+            return JSON.format(differences);
         }
-        return Stylish.applyStylish(map1, map2, differences);
+        return Stylish.format(differences);
     }
 }

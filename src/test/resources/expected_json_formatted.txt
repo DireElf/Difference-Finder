@@ -1,1 +1,1 @@
-{"follow":"removed","host":"unchanged","proxy":"removed","timeout":"changed","verbose":"added"}
+[{"name":"follow","status":"removed","firstValue":false,"secondValue":null},{"name":"host","status":"unchanged","firstValue":"hexlet.io","secondValue":"hexlet.io"},{"name":"proxy","status":"removed","firstValue":"123.234.53.22","secondValue":null},{"name":"timeout","status":"changed","firstValue":50,"secondValue":20},{"name":"verbose","status":"added","firstValue":null,"secondValue":true}]

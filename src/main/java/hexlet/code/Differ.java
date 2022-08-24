@@ -1,5 +1,7 @@
 package hexlet.code;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
@@ -9,22 +11,23 @@ public class Differ {
     public static String generate(String path1, String path2, String format) {
         TreeMap<String, Object> map1 = Parser.parseMap(path1);
         TreeMap<String, Object> map2 = Parser.parseMap(path2);
-        Map<String, String> differences = getDifferences(map1, map2);
-        return Formatter.getFormattedString(map1, map2, differences, format);
+        List<Entry> differences = getDifferences(map1, map2);
+        return Formatter.getFormattedString(differences, format);
     }
 
     public static String generate(String path1, String path2) {
         return generate(path1, path2, "stylish");
     }
 
-    public static TreeMap<String, String> getDifferences(Map<String, Object> map1, Map<String, Object> map2) {
+    public static List<Entry> getDifferences(Map<String, Object> map1, Map<String, Object> map2) {
         TreeSet<String> keys = getOrderedKeySet(map1, map2);
         if (keys.isEmpty()) {
-            return new TreeMap<>();
+            return new ArrayList<>();
         }
-        TreeMap<String, String> diffs = new TreeMap<>();
+        List<Entry> diffs = new ArrayList<>();
         for (String key : keys) {
-            diffs.put(key, getStatus(map1, map2, key));
+            String status = getStatus(map1, map2, key);
+            diffs.add(new Entry(key, status, map1.get(key), map2.get(key)));
         }
         return diffs;
     }
