@@ -13,23 +13,19 @@ import java.nio.file.Paths;
 import java.util.TreeMap;
 
 public class Parser {
-    public static TreeMap<String, Object> parseMap(String path) {
+    public static TreeMap<String, Object> parseMap(String path) throws IOException {
         TreeMap<String, Object> result;
         File file = Paths.get(path).toAbsolutePath().normalize().toFile();
-        try {
-            validate(file);
-            if (path.toLowerCase().endsWith(".json")) {
-                result = new ObjectMapper().readValue(file, new TypeReference<>() {
-                });
-            } else {
-                result = new ObjectMapper(new YAMLFactory()).readValue(file, new TypeReference<>() {
-                });
-            }
-            if (result.isEmpty()) {
-                throw new IOException("File \"" + file.getName() + "\" has no content");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage());
+        validate(file);
+        if (path.toLowerCase().endsWith(".json")) {
+            result = new ObjectMapper().readValue(file, new TypeReference<>() {
+            });
+        } else {
+            result = new ObjectMapper(new YAMLFactory()).readValue(file, new TypeReference<>() {
+            });
+        }
+        if (result.isEmpty()) {
+            throw new IOException("File \"" + file.getName() + "\" has no content");
         }
         return result;
     }
