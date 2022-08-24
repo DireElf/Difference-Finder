@@ -10,14 +10,6 @@ import static hexlet.code.Utils.getPathAsString;
 
 public class UnitTests {
 
-//    @BeforeAll
-//    static void writer() throws IOException {
-//        String toWrite = Differ.generate(getPathAsString("valid_file1.json"),
-//                getPathAsString("valid_file2.json"), "json");
-//        Files.createFile(Paths.get(getPathAsString("expected_json_formatted.txt")));
-//        Files.writeString(Paths.get(getPathAsString("expected_json_formatted.txt")), toWrite);
-//    }
-
     @Test
     void withDefaultFormat() {
         String expected = getFileContent("expected_stylish_formatted.txt");

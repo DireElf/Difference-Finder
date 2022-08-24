@@ -11,8 +11,8 @@ public class Plain {
         if (!differences.isEmpty()) {
             for (Entry entry : differences) {
                 switch (entry.getStatus()) {
-                    case "added" -> stringBuilder.
-                            append(String.format("Property '%s' was added with value: %s\n",
+                    case "added" -> stringBuilder
+                            .append(String.format("Property '%s' was added with value: %s\n",
                                     entry.getName(),
                                     format(entry.getSecondValue())));
                     case "changed" -> stringBuilder
