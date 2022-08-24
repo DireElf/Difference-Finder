@@ -6,7 +6,7 @@ import org.apache.commons.lang3.ClassUtils;
 import java.util.List;
 
 public class Plain {
-    public static String format(List<Entry> differences) {
+    public static String valueAsString(List<Entry> differences) {
         StringBuilder stringBuilder = new StringBuilder();
         if (!differences.isEmpty()) {
             for (Entry entry : differences) {
@@ -14,12 +14,12 @@ public class Plain {
                     case "added" -> stringBuilder
                             .append(String.format("Property '%s' was added with value: %s\n",
                                     entry.getName(),
-                                    format(entry.getSecondValue())));
+                                    valueAsString(entry.getSecondValue())));
                     case "changed" -> stringBuilder
                             .append(String.format("Property '%s' was updated. From %s to %s\n",
                                     entry.getName(),
-                                    format(entry.getFirstValue()),
-                                    format(entry.getSecondValue())));
+                                    valueAsString(entry.getFirstValue()),
+                                    valueAsString(entry.getSecondValue())));
                     case "removed" -> stringBuilder
                             .append(String.format("Property '%s' was removed\n",
                                     entry.getName()));
@@ -31,7 +31,7 @@ public class Plain {
         return stringBuilder.toString();
     }
 
-    private static String format(Object object) {
+    private static String valueAsString(Object object) {
         if (object == null) {
             return "null";
         }
