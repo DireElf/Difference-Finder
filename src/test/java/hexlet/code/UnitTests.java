@@ -76,7 +76,7 @@ public class UnitTests {
     }
 
     @Test
-    void fileDoesNotExists() {
+    void fileDoesNotExist() {
         assertThatThrownBy(() -> Differ.generate(getPathAsString("nonexistent_file.json"),
                 getPathAsString("valid_file2.json")))
                 .hasMessage("File \"nonexistent_file.json\" not found");
