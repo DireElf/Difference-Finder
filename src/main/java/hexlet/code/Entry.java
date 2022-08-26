@@ -1,5 +1,11 @@
 package hexlet.code;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TreeSet;
+
 public final class Entry {
     private String name;
     private String status;
@@ -13,35 +19,51 @@ public final class Entry {
         this.secondValue = newSecondValue;
     }
 
-    public String getName() {
-        return name;
+    public static List<Entry> getDifferences(Map<String, Object> map1, Map<String, Object> map2) {
+        TreeSet<String> keys = getOrderedKeySet(map1, map2);
+        if (keys.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<Entry> diffs = new ArrayList<>();
+        for (String key : keys) {
+            String status = getStatus(map1, map2, key);
+            diffs.add(new Entry(key, status, map1.get(key), map2.get(key)));
+        }
+        return diffs;
     }
 
-    public void setName(String newName) {
-        this.name = newName;
+    private static TreeSet<String> getOrderedKeySet(Map<String, Object> map1, Map<String, Object> map2) {
+        TreeSet<String> keys = new TreeSet<>(map1.keySet());
+        keys.addAll(map2.keySet());
+        return keys;
+    }
+
+    private static String getStatus(Map<String, Object> map1, Map<String, Object> map2, String key) {
+        if (map1.containsKey(key) && map2.containsKey(key)) {
+            boolean hasChange = !Objects.equals(map1.get(key), map2.get(key));
+            return hasChange ? "changed" : "unchanged";
+        }
+        if (!map1.containsKey(key)) {
+            return "added";
+        }
+        return "removed";
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String newStatus) {
-        this.status = newStatus;
-    }
-
     public Object getFirstValue() {
         return firstValue;
-    }
-
-    public void setFirstValue(Object newFirstValue) {
-        this.firstValue = newFirstValue;
     }
 
     public Object getSecondValue() {
         return secondValue;
     }
 
-    public void setSecondValue(Object newSecondValue) {
-        this.secondValue = newSecondValue;
-    }
+
 }

@@ -9,23 +9,28 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.TreeMap;
 
 public class Parser {
-    public static TreeMap<String, Object> parseMap(String path) throws IOException {
+    public static TreeMap<String, Object> getDataMap(String path) throws IOException {
+        validate(getFile(path));
+        String data = Files.readString(Paths.get(path).toAbsolutePath().normalize());
+        return parseMap(data, path);
+    }
+
+    public static TreeMap<String, Object> parseMap(String data, String path) throws IOException {
         TreeMap<String, Object> result;
-        File file = Paths.get(path).toAbsolutePath().normalize().toFile();
-        validate(file);
         if (path.toLowerCase().endsWith(".json")) {
-            result = new ObjectMapper().readValue(file, new TypeReference<>() {
+            result = new ObjectMapper().readValue(data, new TypeReference<>() {
             });
         } else {
-            result = new ObjectMapper(new YAMLFactory()).readValue(file, new TypeReference<>() {
+            result = new ObjectMapper(new YAMLFactory()).readValue(data, new TypeReference<>() {
             });
         }
         if (result.isEmpty()) {
-            throw new IOException("File \"" + file.getName() + "\" has no content");
+            throw new IOException("File \"" + getFile(path).getName() + "\" has no content");
         }
         return result;
     }
@@ -44,5 +49,9 @@ public class Parser {
                 throw new IOException("File \"" + file.getName() + "\" is empty");
             }
         }
+    }
+
+    private static File getFile(String path) {
+        return Paths.get(path).toAbsolutePath().normalize().toFile();
     }
 }
