@@ -90,13 +90,13 @@ public class UnitTests {
     void whenJsonFileHasNoContent() {
         assertThatThrownBy(() -> Differ.generate(getPathAsString("valid_file_without_content.json"),
                 getPathAsString("valid_file_with_complex_values2.json")))
-                .hasMessage("File \"valid_file_without_content.json\" has no content");
+                .hasMessage("File has no content");
     }
 
     @Test
     void whenYmlFileHasNoContent() {
         assertThatThrownBy(() -> Differ.generate(getPathAsString("valid_file_without_content.yml"),
                 getPathAsString("valid_file_with_complex_values2.json")))
-                .hasMessage("File \"valid_file_without_content.yml\" has no content");
+                .hasMessage("File has no content");
     }
 }
