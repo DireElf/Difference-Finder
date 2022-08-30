@@ -9,14 +9,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.Map;
 
 public class Differ {
     public static String generate(String path1, String path2, String format) {
         try {
             validate(path1, path2);
-            TreeMap<String, Object> map1 = Parser.getDataMap(getFileType(path1), getData(path1));
-            TreeMap<String, Object> map2 = Parser.getDataMap(getFileType(path2), getData(path2));
+            Map<String, Object> map1 = Parser.getDataMap(getFileType(path1), getData(path1));
+            Map<String, Object> map2 = Parser.getDataMap(getFileType(path2), getData(path2));
             List<Entry> differences = Entry.getDifferences(map1, map2);
             return Formatter.getFormattedString(differences, format);
         } catch (IOException e) {

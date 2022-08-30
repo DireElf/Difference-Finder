@@ -5,11 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.TreeMap;
 
 public class Parser {
-    public static TreeMap<String, Object> getDataMap(String fileType, String data) throws IOException {
-        TreeMap<String, Object> result = new TreeMap<>();
+    public static Map<String, Object> getDataMap(String fileType, String data) throws IOException {
+        Map<String, Object> result = new TreeMap<>();
         if (fileType.equals("JSON")) {
             result = new ObjectMapper().readValue(data, new TypeReference<>() {
             });
