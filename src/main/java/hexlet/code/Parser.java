@@ -6,20 +6,17 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class Parser {
-    public static Map<String, Object> getDataMap(String fileType, String data) throws IOException {
-        Map<String, Object> result = new TreeMap<>();
-        if (fileType.equals("JSON")) {
-            result = new ObjectMapper().readValue(data, new TypeReference<>() {
-            });
-        } else if (fileType.equals("YML")) {
-            result = new ObjectMapper(new YAMLFactory()).readValue(data, new TypeReference<>() {
-            });
-        }
+    public static Map<String, Object> getParsedMap(Map<String, String> sourceData) throws IOException {
+        Map<String, Object> result;
+        String dataType = sourceData.get("type");
+        String data = sourceData.get("data");
+        ObjectMapper mapper = dataType.equals("JSON") ? new ObjectMapper() : new ObjectMapper(new YAMLFactory());
+        result = mapper.readValue(data, new TypeReference<>() {
+        });
         if (result.isEmpty()) {
-            throw new IOException("File has no content");
+            throw new IOException("Empty " + dataType + " file");
         }
         return result;
     }

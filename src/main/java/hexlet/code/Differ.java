@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +16,10 @@ public class Differ {
     public static String generate(String path1, String path2, String format) {
         try {
             validate(path1, path2);
-            Map<String, Object> map1 = Parser.getDataMap(getFileType(path1), getData(path1));
-            Map<String, Object> map2 = Parser.getDataMap(getFileType(path2), getData(path2));
+            Map<String, String> data1 = getSourceData(path1);
+            Map<String, String> data2 = getSourceData(path2);
+            Map<String, Object> map1 = Parser.getParsedMap(data1);
+            Map<String, Object> map2 = Parser.getParsedMap(data2);
             List<Entry> differences = Entry.getDifferences(map1, map2);
             return Formatter.getFormattedString(differences, format);
         } catch (IOException e) {
@@ -43,19 +46,18 @@ public class Differ {
         }
     }
 
-    private static String getFileType(String path) throws IOException {
+    private static Map<String, String> getSourceData(String path) throws IOException {
+        Map<String, String> result = new HashMap<>();
         if (path.toLowerCase().endsWith(".json")) {
-            return "JSON";
+            result.put("type", "JSON");
         } else if (path.toLowerCase().endsWith(".yml") || path.toLowerCase().endsWith(".yaml")) {
-            return "YML";
+            result.put("type", "YML");
         } else {
             throw new IOException("File \"" + getPath(path).toFile().getName()
                     + "\" has wrong format. Available extensions are: .json, .yml, .yaml");
         }
-    }
-
-    private static String getData(String uri) throws IOException {
-        return Files.readString(getPath(uri));
+        result.put("data", Files.readString(getPath(path)));
+        return result;
     }
 
     private static Path getPath(String path) {
