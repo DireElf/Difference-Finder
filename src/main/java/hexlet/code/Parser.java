@@ -8,10 +8,8 @@ import java.io.IOException;
 import java.util.Map;
 
 public class Parser {
-    public static Map<String, Object> getParsedMap(Map<String, String> sourceData) throws IOException {
+    public static Map<String, Object> getParsedMap(String dataType, String data) throws IOException {
         Map<String, Object> result;
-        String dataType = sourceData.get("type");
-        String data = sourceData.get("data");
         ObjectMapper mapper = dataType.equals("JSON") ? new ObjectMapper() : new ObjectMapper(new YAMLFactory());
         result = mapper.readValue(data, new TypeReference<>() {
         });

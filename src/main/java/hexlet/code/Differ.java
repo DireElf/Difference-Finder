@@ -8,18 +8,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Differ {
     public static String generate(String path1, String path2, String format) {
         try {
-            validate(path1, path2);
-            Map<String, String> data1 = getSourceData(path1);
-            Map<String, String> data2 = getSourceData(path2);
-            Map<String, Object> map1 = Parser.getParsedMap(data1);
-            Map<String, Object> map2 = Parser.getParsedMap(data2);
+            String data1 = getData(path1);
+            String dataType1 = getType(path1);
+            String data2 = getData(path2);
+            String dataType2 = getType(path2);
+            Map<String, Object> map1 = Parser.getParsedMap(dataType1, data1);
+            Map<String, Object> map2 = Parser.getParsedMap(dataType2, data2);
             List<Entry> differences = Entry.getDifferences(map1, map2);
             return Formatter.getFormattedString(differences, format);
         } catch (IOException e) {
@@ -32,32 +32,32 @@ public class Differ {
         return generate(path1, path2, "stylish");
     }
 
-    private static void validate(String... paths) throws IOException {
-        for (String uri : paths) {
-            File file = getPath(uri).toFile();
-            if (!file.exists()) {
-                throw new FileNotFoundException("File \"" + file.getName() + "\" not found");
-            }
-            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                if (br.readLine() == null) {
-                    throw new IOException("File \"" + file.getName() + "\" is empty");
-                }
+    private static String getData(String path) throws IOException {
+        validate(path);
+        return Files.readString(getPath(path));
+    }
+
+    private static void validate(String path) throws IOException {
+        File file = getPath(path).toFile();
+        if (!file.exists()) {
+            throw new FileNotFoundException("File \"" + file.getName() + "\" not found");
+        }
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            if (br.readLine() == null) {
+                throw new IOException("File \"" + file.getName() + "\" is empty");
             }
         }
     }
 
-    private static Map<String, String> getSourceData(String path) throws IOException {
-        Map<String, String> result = new HashMap<>();
+    private static String getType(String path) throws IOException {
         if (path.toLowerCase().endsWith(".json")) {
-            result.put("type", "JSON");
+            return "JSON";
         } else if (path.toLowerCase().endsWith(".yml") || path.toLowerCase().endsWith(".yaml")) {
-            result.put("type", "YML");
+            return "YML";
         } else {
             throw new IOException("File \"" + getPath(path).toFile().getName()
                     + "\" has wrong format. Available extensions are: .json, .yml, .yaml");
         }
-        result.put("data", Files.readString(getPath(path)));
-        return result;
     }
 
     private static Path getPath(String path) {
