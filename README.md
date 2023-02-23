@@ -1,8 +1,6 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/DireElf/java-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/DireElf/java-project-lvl2/actions)
 [![Build](https://github.com/DireElf/java-project-lvl2/actions/workflows/build.yml/badge.svg)](https://github.com/DireElf/java-project-lvl2/actions/workflows/build.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/89e7cece654c1bb65528/maintainability)](https://codeclimate.com/github/DireElf/java-project-lvl2/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/89e7cece654c1bb65528/test_coverage)](https://codeclimate.com/github/DireElf/java-project-lvl2/test_coverage)
 
 The application compares .json and .yml (.yaml) files and displays the differences between them. Available output formats: stylish, plain and JSON. To display help, run the application with the -h or --help option. 
 
